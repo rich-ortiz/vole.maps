@@ -1,0 +1,46 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+setwd("~/Desktop/Genomics Paper/4.19")
+library(readxl)
+X4_19_map <- read_excel("4.19.MUSEEUM.tissue.samples.3.xlsx")
+```
+
+```{r}
+library(tidyverse)
+library(sf)
+library(leaflet)
+library(mapview)
+```
+
+```{r}
+whole.thing = st_as_sf(X4_19_map, coords = c("Longitude", "Latitude"),  crs=4326)
+
+map.short = mapview(whole.thing, zcol = "Species")
+```
+
+```{r}
+Microtus.montanus <- whole.thing  %>% 
+  filter(Species == "Microtus montanus")
+
+Microtus.pennsylvanicus <- whole.thing  %>% 
+  filter(Species == "Microtus pennsylvanicus")
+
+Microtus.pinetorum <- whole.thing  %>% 
+  filter(Species == "Microtus pinetorum")
+
+Male <- whole.thing  %>% 
+  filter(Sex == "male")
+
+Female <- whole.thing  %>% 
+  filter(Sex == "female")
+
+long.map = mapview(Microtus.montanus, cex =16, col.regions = "purple") + mapview(Microtus.pennsylvanicus,cex =16,col.regions = "blue") + mapview(Microtus.pinetorum, cex =16,col.regions = "red") 
+  
+```
+
+
+
